@@ -9,14 +9,14 @@ public class Player {
     char[] coluna = {'A','B','C','D','E','F','G','H','I','J'};
 
     public void setName(String nome){ //define o nome do jogador
-        this.nome = nome;
+        this.nome = nome;//oq ele digitar vai ser botado na variavel
     }
 
     public void setAgua(){ //define os espacos para a agua
-        for (int l = 0; l< map.length;l++){
-            for (int c = 0; c< map[0].length;c++){
-                if (map[l][c] != 'B'){
-                    map[l][c] = '~';
+        for (int l = 0; l< map.length;l++){//length array loop nas linhas do mapa
+            for (int c = 0; c< map[0].length;c++){ //loop nas colunas do mapa
+                if (map[l][c] != 'B'){//se nao tiver barco
+                    map[l][c] = '~';//poe agua
                 }
             }
         }
@@ -26,18 +26,18 @@ public class Player {
         int colInicio = coluna; //pega o valor da coluna inicial
         int linInicio = linha; //pega o valor da linha inicial
         int atribuidos = 0; // número de barcos posicionados;
-        for (int l=0; l<map.length; l++){ // percorre a matriz
-            for (int c=0; c<map[0].length;c++){
+        for (int l=0; l<map.length; l++){ // percorre a matriz aqui com linha
+            for (int c=0; c<map[0].length;c++){//colunas
                 if (atribuidos < tipoNavio) { //verifica se ainda deve definir o navio no mapa dependendo do tamanho dele
                     if (l==linha && c==coluna){ //se a linha e coluna definidas pelo usuario coincidem
                         if (posicao == 1){ //se o usuario escolheu horizontal
                             if(colInicio+tipoNavio <= map.length){ //verifica se tem espaco para alocar o navio na matriz
                                 for (int i = coluna+1; i < colInicio+tipoNavio; i++){ // checa se os espacos depois da localização atual n possuem barcos atribuidos
-                                    if (map[l][i] == 'B') return false; // se tem retorna falso
+                                    if (map[l][i] == 'B') return false; // se tem barco retorna falso
                                 }
                                 if (map[l][c] != 'B'){// verifica se possui barco na localizaçao atual
                                     map[l][c] = 'B'; //define o navio na matriz
-                                    coluna++; //move uma coluna
+                                    coluna++; //move uma coluna por ser vert
                                     atribuidos++; //atribui +1 aos barcos atribuidos
                                 } else return false;
                             } else return false;
@@ -45,7 +45,7 @@ public class Player {
                         else if (posicao == 2){ //se o usuario escolheu horizontal
                             if(linInicio+tipoNavio <= map.length){ //verifica se tem espaco para alocar o navio na matriz
                                 for (int i = linha+1; i < linInicio+tipoNavio; i++){ // checa se os espacos depois da localização atual n possuem barcos atribuidos
-                                    if (map[i][c] == 'B') return false;
+                                    if (map[i][c] == 'B') return false;//se tiver retorna falso
                                 }
                                 if (map[l][c] != 'B'){ // verifica se possui barco na localizaçao atual
                                     map[l][c] = 'B'; //define o navio na matriz
@@ -61,26 +61,26 @@ public class Player {
     }
 
     public void setMapRandom(){ // preenche aleatoriamente o mapa
-        Random aleatorio = new Random();
+        Random aleatorio = new Random();//objeto random q gera num aleatorios
         int navioGG = 1, navioG = 2, navioM = 3, navioP = 4; //numero de barcos para atribuir
         do {
             if (navioGG!=0){ // se ainda tiver barcos disponiveis
-                if (setNavio(aleatorio.nextInt(10), aleatorio.nextInt(10), aleatorio.nextInt(2)+1,4)){ // se a atribuicao do barco funcionar, retorna true
+                if (setNavio(aleatorio.nextInt(10), aleatorio.nextInt(10), aleatorio.nextInt(2)+1,4)){ // 4 espaçoes ele ocupa, se a atribuicao do barco funcionar, retorna true
                     navioGG--; // diminui 1 barco dos disponiveis
                 }
             }
             if (navioG!=0){
-                if (setNavio(aleatorio.nextInt(10), aleatorio.nextInt(10), aleatorio.nextInt(2)+1,3)){
+                if (setNavio(aleatorio.nextInt(10), aleatorio.nextInt(10), aleatorio.nextInt(2)+1,3)){//aleatorio é um metodo do random q gera um num ate 10, 2 vezes pq precisamos de linha e col
                     navioG--;
                 }
             }
             if (navioM!=0){
-                if (setNavio(aleatorio.nextInt(10), aleatorio.nextInt(10), aleatorio.nextInt(2)+1,2)){
+                if (setNavio(aleatorio.nextInt(10), aleatorio.nextInt(10), aleatorio.nextInt(2)+1,2)){// gerar os numeros entre 1 e 2 é pra posição vert e hor.
                     navioM--;
                 }
             }
             if (navioP!=0){
-                if (setNavio(aleatorio.nextInt(10), aleatorio.nextInt(10), aleatorio.nextInt(2)+1,1)){
+                if (setNavio(aleatorio.nextInt(10), aleatorio.nextInt(10), aleatorio.nextInt(2)+1,1)){ //e o tamanho do navio
                     navioP--;
                 }
             }
@@ -90,22 +90,22 @@ public class Player {
     public void getMap(){ // imprime o mapa atualizado do jogador
         int count= 0; //contador para ver se tem todos os 20 barcos no mapa
         for (int i = 0; i<coluna.length;i++){
-            if (i==0) System.out.print("    "+coluna[i]+"   ");
+            if (i==0) System.out.print("    "+coluna[i]+"   ");//imprime as colunas
             else System.out.print(coluna[i]+"   ");
         }
         System.out.println();
-        for (int l = 0; l<map.length; l++){
-            for (int c = 0; c<map[0].length;c++){
+        for (int l = 0; l<map.length; l++){//loop das linhas
+            for (int c = 0; c<map[0].length;c++){//loop das colunas
                 if (c==0){
-                    System.out.print(l + " | ");
+                    System.out.print(l + " | ");//imprime
                     System.out.print(map[l][c]+" | ");
                 }
                 else System.out.print(map[l][c]+" | ");
-                if (map[l][c] == 'B') count++;
+                if (map[l][c] == 'B') count++;//aumenta o contador d barco
             }
             System.out.println();
         }
-        System.out.println("Número de barcos: "+count);
+        System.out.println("Número de barcos: "+count);//imprime o contador
     }
 
     public void hideMap(){ //imprime mapa escondido
@@ -120,9 +120,9 @@ public class Player {
                     System.out.print(l + " | ");
                 }
                 switch (map[l][c]) {
-                    case 'X' -> System.out.print(map[l][c]+" | ");
-                    case '*' -> System.out.print(map[l][c]+" | ");
-                    default -> System.out.print("  | ");
+                    case 'X' -> System.out.print(map[l][c]+" | ");//agua atingida
+                    case '*' -> System.out.print(map[l][c]+" | ");//acertei um barco
+                    default -> System.out.print(" | ");
                 }
             }
             System.out.println();
